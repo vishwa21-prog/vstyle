@@ -1,0 +1,306 @@
+HTML
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishwa Styles</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>VSTYLE</h1>
+    <p class="letter">Fashion is a style of clothing, footwear, accessories, makeup, hairstyle, lifestyle, and body proportions. It is a way of expressing oneself and one's individuality. Fashion can also be used to make a statement about one's social status or beliefs.</p>
+    <h1>About</h1>
+    <p class="letter">At Vstyle, we believe every outfit is an opportunity to express yourself. So, we are changing how people shop- by combining smart technology with real, passionate stylists.
+    </p>
+    <form id="nameEmailForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="upload-form">
+        <h2>Upload Pictures</h2>
+        <table>
+            <tr>
+                <th>Category</th>
+                <th>Upload Pictures (Max 3)</th>
+            </tr>
+            <tr>
+                <td>Tops</td>
+                <td><input type="file" id="tops" name="tops" accept="image/*" multiple></td>
+            </tr>
+            <tr>
+                <td>Bottoms</td>
+                <td><input type="file" id="bottoms" name="bottoms" accept="image/*" multiple></td>
+            </tr>
+            <tr>
+                <td>Accessories</td>
+                <td><input type="file" id="accessories" name="accessories" accept="image/*" multiple></td>
+            </tr>
+            <tr>
+                <td>Shoes</td>
+                <td><input type="file" id="shoes" name="shoes" accept="image/*" multiple></td>
+            </tr>
+        </table>
+        <button id="upload-button">Upload</button>
+        <button id="shuffle-button">Shuffle</button>
+    </div>
+    <div id="image-gallery"></div>
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+CSS
+
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+
+body {
+    font-family: Palatino;
+    margin: 0;
+    padding: 20px;
+    background-image: url('https://i.pinimg.com/736x/cf/43/df/cf43df09ccffe8efdce78b060fe36696.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+/* Rest of your existing styles */
+.letter {
+    color: black;
+    font-size: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #3b4a29;
+    font-size: 50px;
+    /* Pink color for headings */
+}
+
+p {
+    text-align: justify;
+    margin-bottom: 20px;
+    color: #333;
+    /* Dark text color */
+}
+
+#upload-form {
+    margin-bottom: 20px;
+    background-image: url('https://i.pinimg.com/564x/1c/db/e4/1cdbe4e023322859477f6d96ae2c4848.jpg');
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Soft shadow */
+    display: none;
+}
+
+#upload-form table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#upload-form th,
+#upload-form td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#upload-button,
+#shuffle-button {
+    padding: 10px 20px;
+    background-color: #4a3833;
+    /* Pink button color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#upload-button:hover,
+#shuffle-button:hover {
+    background-image: url('https://i.pinimg.com/564x/1c/db/e4/1cdbe4e023322859477f6d96ae2c4848.jpg');
+    /* Darker pink on hover */
+}
+
+#image-gallery {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.outfit-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.outfit-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Soft shadow */
+}
+
+JS
+
+let tops = [];
+let bottoms = [];
+let accessories = [];
+let shoes = [];
+
+document.getElementById('upload-button').addEventListener('click', function() {
+    tops = Array.from(document.getElementById('tops').files).slice(0, 3);
+    bottoms = Array.from(document.getElementById('bottoms').files).slice(0, 3);
+    accessories = Array.from(document.getElementById('accessories').files).slice(0, 3);
+    shoes = Array.from(document.getElementById('shoes').files).slice(0, 3);
+});
+
+document.getElementById('shuffle-button').addEventListener('click', function() {
+    const shuffledTops = shuffleArray(tops);
+    const shuffledBottoms = shuffleArray(bottoms);
+    const shuffledAccessories = shuffleArray(accessories);
+    const shuffledShoes = shuffleArray(shoes);
+
+    const gallery = document.getElementById('image-gallery');
+    gallery.innerHTML = '';
+
+    for (let i = 0; i < 3; i++) {
+        const table = document.createElement('table');
+        table.className = 'outfit-table';
+
+        const outfitNumberRow = document.createElement('tr');
+        const outfitNumberCell = document.createElement('td');
+        outfitNumberCell.textContent = `Outfit ${i + 1}`;
+        outfitNumberCell.colSpan = 4; // Span the cell across all columns
+        outfitNumberRow.appendChild(outfitNumberCell);
+        table.appendChild(outfitNumberRow);
+
+        const topsRow = document.createElement('tr');
+        const topsCell = document.createElement('td');
+        const topsImage = document.createElement('img');
+        topsImage.src = URL.createObjectURL(shuffledTops[i]);
+        topsImage.className = 'outfit-image';
+        topsCell.appendChild(topsImage);
+        topsRow.appendChild(topsCell);
+        table.appendChild(topsRow);
+
+        const bottomsRow = document.createElement('tr');
+        const bottomsCell = document.createElement('td');
+        const bottomsImage = document.createElement('img');
+        bottomsImage.src = URL.createObjectURL(shuffledBottoms[i]);
+        bottomsImage.className = 'outfit-image';
+        bottomsCell.appendChild(bottomsImage);
+        bottomsRow.appendChild(bottomsCell);
+        table.appendChild(bottomsRow);
+
+        const accessoriesRow = document.createElement('tr');
+        const accessoriesCell = document.createElement('td');
+        const accessoriesImage = document.createElement('img');
+        accessoriesImage.src = URL.createObjectURL(shuffledAccessories[i]);
+        accessoriesImage.className = 'outfit-image';
+        accessoriesCell.appendChild(accessoriesImage);
+        accessoriesRow.appendChild(accessoriesCell);
+        table.appendChild(accessoriesRow);
+
+        const shoesRow = document.createElement('tr');
+        const shoesCell = document.createElement('td');
+        const shoesImage = document.createElement('img');
+        shoesImage.src = URL.createObjectURL(shuffledShoes[i]);
+        shoesImage.className = 'outfit-image';
+        shoesCell.appendChild(shoesImage);
+        shoesRow.appendChild(shoesCell);
+        table.appendChild(shoesRow);
+
+        gallery.appendChild(table);
+    }
+});
+document.getElementById('nameEmailForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+    document.getElementById('upload-form').style.display = 'block'; // Show the upload form
+    document.getElementById('upload-form').scrollIntoView({
+        behavior: 'smooth'
+    }); // Scroll to the upload form
+});
+document.getElementById('shuffle-button').addEventListener('click', function() {
+    const shuffledTops = shuffleArray(tops);
+    const shuffledBottoms = shuffleArray(bottoms);
+    const shuffledAccessories = shuffleArray(accessories);
+    const shuffledShoes = shuffleArray(shoes);
+
+    const gallery = document.getElementById('image-gallery');
+    gallery.innerHTML = '';
+
+    for (let i = 0; i < 3; i++) {
+        const table = document.createElement('table');
+        table.className = 'outfit-table';
+
+        const outfitNumberRow = document.createElement('tr');
+        const outfitNumberCell = document.createElement('td');
+        outfitNumberCell.textContent = `Outfit ${i + 1}`;
+        outfitNumberCell.colSpan = 4; // Span the cell across all columns
+        outfitNumberRow.appendChild(outfitNumberCell);
+        table.appendChild(outfitNumberRow);
+
+        const topsRow = document.createElement('tr');
+        const topsCell = document.createElement('td');
+        const topsImage = document.createElement('img');
+        topsImage.src = URL.createObjectURL(shuffledTops[i]);
+        topsImage.className = 'outfit-image';
+        topsCell.appendChild(topsImage);
+        topsRow.appendChild(topsCell);
+        table.appendChild(topsRow);
+
+        const bottomsRow = document.createElement('tr');
+        const bottomsCell = document.createElement('td');
+        const bottomsImage = document.createElement('img');
+        bottomsImage.src = URL.createObjectURL(shuffledBottoms[i]);
+        bottomsImage.className = 'outfit-image';
+        bottomsCell.appendChild(bottomsImage);
+        bottomsRow.appendChild(bottomsCell);
+        table.appendChild(bottomsRow);
+
+        const accessoriesRow = document.createElement('tr');
+        const accessoriesCell = document.createElement('td');
+        const accessoriesImage = document.createElement('img');
+        accessoriesImage.src = URL.createObjectURL(shuffledAccessories[i]);
+        accessoriesImage.className = 'outfit-image';
+        accessoriesCell.appendChild(accessoriesImage);
+        accessoriesRow.appendChild(accessoriesCell);
+        table.appendChild(accessoriesRow);
+
+        const shoesRow = document.createElement('tr');
+        const shoesCell = document.createElement('td');
+        const shoesImage = document.createElement('img');
+        shoesImage.src = URL.createObjectURL(shuffledShoes[i]);
+        shoesImage.className = 'outfit-image';
+        shoesCell.appendChild(shoesImage);
+        shoesRow.appendChild(shoesCell);
+        table.appendChild(shoesRow);
+
+        gallery.appendChild(table);
+    }
+
+    alert('Thank you for shuffling your outfits!');
+});
+
+
+
+
+
+function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
